@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="68406561-d5ae-465a-82c9-24ad414bfa91" name="Default Changelist" comment="" />
+    <list default="true" id="68406561-d5ae-465a-82c9-24ad414bfa91" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" beforeDir="false" afterPath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/HEAD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/description" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/applypatch-msg.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/commit-msg.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/fsmonitor-watchman.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/post-update.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-applypatch.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-commit.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-merge-commit.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-push.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-rebase.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-receive.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/prepare-commit-msg.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/update.sample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/info/exclude" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +38,34 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="module" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ruthmenezes\AppData\Local\Microsoft\WindowsApps\python3.9.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.module" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -41,5 +88,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

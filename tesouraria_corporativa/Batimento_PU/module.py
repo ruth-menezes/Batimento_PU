@@ -1,23 +1,21 @@
 from DORC_Utils import *
-from datetime import datetime
+from datetime import datetime, timedelta
 import numpy as np
 import pandas as pd
 import math
 import prefect
 import pendulum
 
-folderpath = '\\\\afs\\Areas\\Tesouraria-Corporativa\\Compartilhado\\Ruth Menezes\\DORC\\FIG_Tesouraria\\'
+folderpath = '\\\\afs\\Areas\\Tesouraria-Corporativa\\Compartilhado\\Ruth Menezes\\DORC\\tesouraria_corporativa\\'
 
-schedule = BBM_Schedule('*/3 10-18 * * *', start_date=pendulum.now('America/Sao_Paulo'))  # 10h30 - 17h30
+schedule = BBM_Schedule('*/1 10-18 * * *', start_date=pendulum.now('America/Sao_Paulo'))  # 10h30 - 17h30
 # schedule = BBM_Schedule().every().minute() # 10h30 - 17h30
 
 # print(list(map(lambda time: time.strftime('%HH%MM'), schedule.next(1000))))
 
-
 @task()
 def get_date():
     return datetime.now().strftime('%Y%m%d')
-
 
 @task()
 def consulta_fig(pub: pd.DataFrame):
@@ -126,8 +124,9 @@ def updated(new_pub_399, new_pub_740):
 
 with BBM_Flow('unit price check', schedule=schedule) as flow:
     today = get_date()
-    pub_399 = read_publicador(399, data_base=today)
-    pub_740 = read_publicador(740, data_base=today)
+    yesterday = (datetime.now() - timedelta(1)).strftime('%Y%m%d')
+    pub_399 = read_publicador(399, data_base=yesterday)
+    pub_740 = read_publicador(740, data_base=yesterday)
 
     with prefect.case(updated(pub_399, pub_740), True):
         saved_399 = save_temp(pub_399, 'pub_399')

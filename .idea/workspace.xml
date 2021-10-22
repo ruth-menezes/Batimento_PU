@@ -2,24 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68406561-d5ae-465a-82c9-24ad414bfa91" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/logfile" beforeDir="false" afterPath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/logfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" beforeDir="false" afterPath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/HEAD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/config" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/description" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/applypatch-msg.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/commit-msg.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/fsmonitor-watchman.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/post-update.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-applypatch.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-commit.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-merge-commit.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-push.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-rebase.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/pre-receive.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/prepare-commit-msg.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/hooks/update.sample" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/anotações/info/exclude" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

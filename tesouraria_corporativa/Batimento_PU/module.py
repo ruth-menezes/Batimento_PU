@@ -139,6 +139,8 @@ with BBM_Flow('unit price check', schedule=schedule) as flow:
 
         pub_fig = publicacao_fig(res_fig, res_tes, workdays)
 
+        print(pub_fig)
+
         save_raw(pub_fig, today)
 
 flow.run()

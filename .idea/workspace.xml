@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68406561-d5ae-465a-82c9-24ad414bfa91" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pub_399.csv" beforeDir="false" afterPath="$PROJECT_DIR$/pub_399.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pub_740.csv" beforeDir="false" afterPath="$PROJECT_DIR$/pub_740.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raw.csv" beforeDir="false" afterPath="$PROJECT_DIR$/raw.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/logfile" beforeDir="false" afterPath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/logfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" beforeDir="false" afterPath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" afterDir="false" />
     </list>
@@ -13,6 +17,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectId" id="1zj7vWGyzswWlMTTYjR6OYiOhO1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -22,6 +29,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
   </component>
   <component name="RunManager">
     <configuration name="module" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">

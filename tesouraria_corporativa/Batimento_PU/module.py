@@ -13,9 +13,11 @@ schedule = BBM_Schedule('*/1 10-18 * * *', start_date=pendulum.now('America/Sao_
 
 # print(list(map(lambda time: time.strftime('%HH%MM'), schedule.next(1000))))
 
+
 @task()
-def get_date():
-    return datetime.now().strftime('%Y%m%d')
+def get_date(diff=0):
+    return (datetime.now() + timedelta(diff)).strftime('%Y%m%d')
+
 
 @task()
 def consulta_fig(pub: pd.DataFrame):
@@ -124,7 +126,7 @@ def updated(new_pub_399, new_pub_740):
 
 with BBM_Flow('unit price check', schedule=schedule) as flow:
     today = get_date()
-    yesterday = (datetime.now() - timedelta(1)).strftime('%Y%m%d')
+    yesterday = get_date(-1)
     pub_399 = read_publicador(399, data_base=yesterday)
     pub_740 = read_publicador(740, data_base=yesterday)
 
@@ -138,8 +140,6 @@ with BBM_Flow('unit price check', schedule=schedule) as flow:
         res_tes = consulta_tesouraria(pub_740)
 
         pub_fig = publicacao_fig(res_fig, res_tes, workdays)
-
-        print(pub_fig)
 
         save_raw(pub_fig, today)
 

@@ -58,7 +58,7 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
     pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'PU',
                       'Quantidade', 'Contraparte', 'Produto', 'Tipo', 'Prazo', 'Fixa', 'DI1', 'Referência']]
 
-    #Excel Formulas
+    # Excel Formulas
 
     pub['DI_ref_POS'] = pub['DI1']
     pub['Taxa_Dis_pos'] = pub.apply(lambda row: 0 if row['Tipo'] == "PRE" else math.pow(
@@ -83,10 +83,10 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
     pub['Diferença'] = pub.apply(lambda row: 0 if row['PU'] == 0 else np.around(
         (row['PU_' + row['Tipo']]-row['PU'])/row['PU'], 10), axis=1)
 
-    #Power Query
+    # Power Query
     pub['PU_tesouraria'] = pub.apply(lambda row: row['PU_PRE'] if row['PU_PRE'] != 0 else row['PU_POS'], axis=1)
-    pub['Batimento PU'] = pub.apply(lambda row: ('OK' if abs(row['Diferença']) <
-                                    0.0005 else 'REVALIDAR') if row['PU'] else 'OK', axis=1)
+    pub['Batimento PU'] = pub.apply(lambda row: 'REVALIDAR' if row['Batimento_taxa'] == "FALSE" else (('OK' if abs(row['Diferença']) <
+                                    0.0005 else 'REVALIDAR') if row['PU'] else 'OK'), axis=1)
     pub = pub.rename({'DI_ref_POS': 'DI_ref', 'Tipo': 'Indexador'}, axis=1)
     pub = pub.loc[:, ['Contraparte', 'Emissão', 'Vencimento', 'Taxa Distribuidor', 'Taxa Cliente',
                       'DI_ref', 'PU_tesouraria', 'Quantidade', 'Prazo', 'Produto', 'Indexador', 'Batimento PU']]

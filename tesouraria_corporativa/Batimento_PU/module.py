@@ -123,12 +123,15 @@ def updated(new_pub_399, new_pub_740):
     else:
         return True
 
-
 with BBM_Flow('unit price check', schedule=schedule) as flow:
     today = get_date()
     yesterday = get_date(-1)
-    pub_399 = read_publicador(399, data_base=yesterday)
-    pub_740 = read_publicador(740, data_base=yesterday)
+    # pub_399 = read_publicador(399, data_base=yesterday)
+    # pub_740 = read_publicador(740, data_base=yesterday)
+    pub_399 = pd.read_excel(folderpath + 'teste_1.xlsx')
+    pub_740 = pd.read_excel(folderpath + 'teste_2.xlsx')
+
+    print(pub_399)
 
     with prefect.case(updated(pub_399, pub_740), True):
         saved_399 = save_temp(pub_399, 'pub_399')

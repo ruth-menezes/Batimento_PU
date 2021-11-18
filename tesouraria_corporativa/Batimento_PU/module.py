@@ -23,7 +23,7 @@ def get_date(diff=0):
 def consulta_fig(pub: pd.DataFrame):
     pub = pub.drop(['Data Referência', 'Agrupador', 'Boleto'], axis=1)
     pub = pub[pub['Vencimento'].notna()]
-    pub['Tipo'] = pub.apply(lambda row: 'POS' if row['Taxa Cliente'] > 0.9 else 'PRE', axis=1)
+    # pub['Tipo'] = pub.apply(lambda row: 'POS' if row['Taxa Cliente'] > 0.9 else 'PRE', axis=1)
     pub['Vencimento'] = pd.to_datetime(pub['Vencimento'])
     pub['Emissão'] = pd.to_datetime(pub['Emissão'])
     pub['Prazo'] = pub.apply(lambda row: np.around(
@@ -35,6 +35,7 @@ def consulta_fig(pub: pd.DataFrame):
 def consulta_tesouraria(pub: pd.DataFrame):
     pub = pub.drop(['Data Referência', 'IPCA +'], axis=1)
     pub = pub[pub['Vencimento'].notna()]
+    pub['CDI +'] = pub.apply(lambda row: np.around(row['CDI +'], 4), axis=1)
     pub['Fixa'] = pub.apply(lambda row: np.around(row['Fixa'], 4), axis=1)
     pub['Referência'] = pub.apply(lambda row: np.around(row['Referência'], 4), axis=1)
     return pub
@@ -55,29 +56,30 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
                                          (row['Taxa Distribuidor_FIG'] or row['Fixa']), axis=1)
     pub['PU'] = pub['PU'].fillna(0)
 
-    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'PU',
-                      'Quantidade', 'Contraparte', 'Produto', 'Tipo', 'Prazo', 'Fixa', 'DI1', 'Referência']]
+    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'PU', 'Indexador',
+                      'Quantidade', 'Contraparte', 'Produto', 'Tipo', 'Prazo', 'Fixa', 'CDI +', 'DI1', 'Referência']]
 
     # Excel Formulas
 
     pub['DI_ref_POS'] = pub['DI1']
-    pub['Taxa_Dis_pos'] = pub.apply(lambda row: 0 if row['Tipo'] == "PRE" else math.pow(
+    pub['Taxa_Dis_pos'] = pub.apply(lambda row: 0 if row['Indexador'] != "% CDI" else math.pow(
         ((math.pow(1+row['DI_ref_POS'], 1/252))-1)*row['Taxa Distribuidor']+1, 252)-1, axis=1)
-    pub['Taxa_Cli_pos'] = pub.apply(lambda row: 0 if row['Tipo'] == "PRE" else math.pow(
+    pub['Taxa_Cli_pos'] = pub.apply(lambda row: 0 if row['Indexador'] != "% CDI" else math.pow(
         ((math.pow(1+row['DI_ref_POS'], 1/252))-1)*row['Taxa Cliente']+1, 252)-1, axis=1)
 
     pub['Batimento_taxa'] = pub.apply(lambda row:
-                                      ("TRUE" if row['Fixa'] >= row['Taxa Distribuidor'] else "FALSE") if row['Tipo'] == "PRE" else
-                                      ("TRUE" if row['Referência'] >= row['Taxa Distribuidor'] else "FALSE"), axis=1)
+                                      ("TRUE" if row['Fixa'] >= row['Taxa Distribuidor'] else "FALSE") if row['Indexador'] == "PRE" else
+                                      (("TRUE" if row['CDI +'] >= row['Taxa Distribuidor'] else "FALSE") if row['Indexador'] == "CDI +" else
+                                      ("TRUE" if row['Referência'] >= row['Taxa Distribuidor'] else "FALSE")), axis=1)
 
     workdays = workdays.strftime('%Y-%m-%d').to_list()
     pub['nwdays'] = pub.apply(lambda row: nwdays(row['Emissão'], row['Vencimento'], workdays), axis=1)
-    pub['PU_PRE'] = pub.apply(lambda row: 0 if row['Tipo'] == "POS" else np.around((math.pow(
+    pub['PU_PRE'] = pub.apply(lambda row: 0 if (row['Indexador'] != "PRE" or row['Indexador'] != "CDI +") else np.around((math.pow(
         1+row['Taxa Cliente'], row['nwdays']/252)/math.pow(1+row['Taxa Distribuidor'], row['nwdays']/252))*1000, 8), axis=1)
-    pub['PU_POS'] = pub.apply(lambda row: 0 if row['Tipo'] == "PRE" else np.around(
+    pub['PU_POS'] = pub.apply(lambda row: 0 if row['Indexador'] != "% CDI" else np.around(
         (math.pow(1+row['Taxa_Cli_pos'], row['nwdays']/252)/math.pow(1+row['Taxa_Dis_pos'], row['nwdays']/252))*1000, 8), axis=1)
 
-    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'PU', 'Quantidade', 'Contraparte',
+    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'CDI +', 'PU', 'Quantidade', 'Contraparte',
                       'Produto', 'Tipo', 'Prazo', 'Batimento_taxa', 'PU_PRE', 'DI_ref_POS', 'Taxa_Dis_pos', 'Taxa_Cli_pos', 'PU_POS']]
 
     pub['Diferença'] = pub.apply(lambda row: 0 if row['PU'] == 0 else np.around(
@@ -88,7 +90,7 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
     pub['Batimento PU'] = pub.apply(lambda row: 'REVALIDAR' if row['Batimento_taxa'] == "FALSE" else (('OK' if abs(row['Diferença']) <
                                     0.0005 else 'REVALIDAR') if row['PU'] else 'OK'), axis=1)
     pub = pub.rename({'DI_ref_POS': 'DI_ref', 'Tipo': 'Indexador'}, axis=1)
-    pub = pub.loc[:, ['Contraparte', 'Emissão', 'Vencimento', 'Taxa Distribuidor', 'Taxa Cliente',
+    pub = pub.loc[:, ['Contraparte', 'Emissão', 'Vencimento', 'Taxa Distribuidor', 'Taxa Cliente', 'CDI +',
                       'DI_ref', 'PU_tesouraria', 'Quantidade', 'Prazo', 'Produto', 'Indexador', 'Batimento PU']]
 
     return pub
@@ -123,13 +125,14 @@ def updated(new_pub_399, new_pub_740):
     else:
         return True
 
+
 with BBM_Flow('unit price check', schedule=schedule) as flow:
     today = get_date()
     yesterday = get_date(-1)
-    # pub_399 = read_publicador(399, data_base=yesterday)
-    # pub_740 = read_publicador(740, data_base=yesterday)
-    pub_399 = pd.read_excel(folderpath + 'teste_1.xlsx')
-    pub_740 = pd.read_excel(folderpath + 'teste_2.xlsx')
+    pub_399 = read_publicador(399, data_base=yesterday)
+    pub_740 = read_publicador(740, data_base=yesterday)
+    # pub_399 = pd.read_excel(folderpath + 'teste_1.xlsx')
+    # pub_740 = pd.read_excel(folderpath + 'teste_2.xlsx')
 
     print(pub_399)
 

@@ -56,8 +56,8 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
                                          (row['Taxa Distribuidor_FIG'] or row['Fixa']), axis=1)
     pub['PU'] = pub['PU'].fillna(0)
 
-    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'PU', 'Indexador',
-                      'Quantidade', 'Contraparte', 'Produto', 'Tipo', 'Prazo', 'Fixa', 'CDI +', 'DI1', 'Referência']]
+    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'PU', 'CDI +',
+                      'Quantidade', 'Contraparte', 'Indexador', 'Produto', 'Tipo', 'Prazo', 'Fixa', 'DI1', 'Referência']]
 
     # Excel Formulas
 
@@ -79,7 +79,7 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
     pub['PU_POS'] = pub.apply(lambda row: 0 if row['Indexador'] != "% CDI" else np.around(
         (math.pow(1+row['Taxa_Cli_pos'], row['nwdays']/252)/math.pow(1+row['Taxa_Dis_pos'], row['nwdays']/252))*1000, 8), axis=1)
 
-    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'CDI +', 'PU', 'Quantidade', 'Contraparte',
+    pub = pub.loc[:, ['Emissão', 'Vencimento', 'Taxa Distribuidor', 'DI Ref', 'Taxa Cliente', 'CDI +', 'PU', 'Quantidade', 'Contraparte', 'Indexador',
                       'Produto', 'Tipo', 'Prazo', 'Batimento_taxa', 'PU_PRE', 'DI_ref_POS', 'Taxa_Dis_pos', 'Taxa_Cli_pos', 'PU_POS']]
 
     pub['Diferença'] = pub.apply(lambda row: 0 if row['PU'] == 0 else np.around(

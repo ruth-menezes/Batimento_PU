@@ -89,9 +89,9 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
     pub['PU_tesouraria'] = pub.apply(lambda row: row['PU_PRE'] if row['PU_PRE'] != 0 else row['PU_POS'], axis=1)
     pub['Batimento PU'] = pub.apply(lambda row: 'REVALIDAR' if row['Batimento_taxa'] == "FALSE" else (('OK' if abs(row['Diferença']) <
                                     0.0005 else 'REVALIDAR') if row['PU'] else 'OK'), axis=1)
-    pub = pub.rename({'DI_ref_POS': 'DI_ref', 'Tipo': 'Indexador'}, axis=1)
+    pub = pub.rename({'DI_ref_POS': 'DI_ref'}, axis=1)
     pub = pub.loc[:, ['Contraparte', 'Emissão', 'Vencimento', 'Taxa Distribuidor', 'Taxa Cliente', 'CDI +',
-                      'DI_ref', 'PU_tesouraria', 'Quantidade', 'Prazo', 'Produto', 'Indexador', 'Batimento PU']]
+                      'DI_ref', 'PU_tesouraria', 'Quantidade', 'Prazo', 'Produto', 'Indexador', 'Tipo', 'Batimento PU']]
 
     return pub
 
@@ -128,7 +128,7 @@ def updated(new_pub_399, new_pub_740):
 
 with BBM_Flow('unit price check', schedule=schedule) as flow:
     today = get_date()
-    yesterday = get_date(-1)
+    yesterday = get_date(-2)
     pub_399 = read_publicador(399, data_base=yesterday)
     pub_740 = read_publicador(740, data_base=yesterday)
     # pub_399 = pd.read_excel(folderpath + 'teste_1.xlsx')

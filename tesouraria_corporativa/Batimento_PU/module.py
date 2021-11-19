@@ -74,7 +74,7 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
 
     workdays = workdays.strftime('%Y-%m-%d').to_list()
     pub['nwdays'] = pub.apply(lambda row: nwdays(row['Emissão'], row['Vencimento'], workdays), axis=1)
-    pub['PU_PRE'] = pub.apply(lambda row: 0 if (row['Indexador'] != 'PRE' or row['Indexador'] != 'CDI +') else np.around((math.pow(
+    pub['PU_PRE'] = pub.apply(lambda row: 0 if row['Indexador'] == "% CDI" else np.around((math.pow(
         1+row['Taxa Cliente'], row['nwdays']/252)/math.pow(1+row['Taxa Distribuidor'], row['nwdays']/252))*1000, 8), axis=1)
     pub['PU_POS'] = pub.apply(lambda row: 0 if row['Indexador'] != "% CDI" else np.around(
         (math.pow(1+row['Taxa_Cli_pos'], row['nwdays']/252)/math.pow(1+row['Taxa_Dis_pos'], row['nwdays']/252))*1000, 8), axis=1)
@@ -90,8 +90,8 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
     pub['Batimento PU'] = pub.apply(lambda row: 'REVALIDAR' if row['Batimento_taxa'] == "FALSE" else (('OK' if abs(row['Diferença']) <
                                     0.0005 else 'REVALIDAR') if row['PU'] else 'OK'), axis=1)
     pub = pub.rename({'DI_ref_POS': 'DI_ref'}, axis=1)
-    pub = pub.loc[:, ['Contraparte', 'Emissão', 'Vencimento', 'Taxa Distribuidor', 'Taxa Cliente', 'CDI +',
-                      'DI_ref', 'PU_tesouraria', 'Quantidade', 'Prazo', 'Produto', 'Indexador', 'Tipo', 'Batimento PU']]
+    pub = pub.loc[:, ['Contraparte', 'Emissão', 'Vencimento', 'Taxa Distribuidor', 'Taxa Cliente', 'CDI +', 'PU_POS', 'PU_PRE',
+                      'DI_ref', 'PU_tesouraria', 'Quantidade', 'Prazo', 'Produto', 'Indexador', 'Tipo', 'Diferença', 'Batimento PU']]
 
     return pub
 
@@ -128,7 +128,7 @@ def updated(new_pub_399, new_pub_740):
 
 with BBM_Flow('unit price check', schedule=schedule) as flow:
     today = get_date()
-    yesterday = get_date(-2)
+    yesterday = get_date(-1)
     pub_399 = read_publicador(399, data_base=yesterday)
     pub_740 = read_publicador(740, data_base=yesterday)
     # pub_399 = pd.read_excel(folderpath + 'teste_1.xlsx')

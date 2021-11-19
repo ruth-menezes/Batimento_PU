@@ -8,7 +8,7 @@ import pendulum
 
 folderpath = '\\\\afs\\Areas\\Tesouraria-Corporativa\\Compartilhado\\Ruth Menezes\\DORC\\tesouraria_corporativa\\'
 
-schedule = BBM_Schedule('*/1 10-18 * * *', start_date=pendulum.now('America/Sao_Paulo'))  # 10h30 - 17h30
+schedule = BBM_Schedule('*/1 9-18 * * *', start_date=pendulum.now('America/Sao_Paulo'))  # 10h30 - 17h30
 # schedule = BBM_Schedule().every().minute() # 10h30 - 17h30
 
 # print(list(map(lambda time: time.strftime('%HH%MM'), schedule.next(1000))))
@@ -23,7 +23,7 @@ def get_date(diff=0):
 def consulta_fig(pub: pd.DataFrame):
     pub = pub.drop(['Data Referência', 'Agrupador', 'Boleto'], axis=1)
     pub = pub[pub['Vencimento'].notna()]
-    # pub['Tipo'] = pub.apply(lambda row: 'POS' if row['Taxa Cliente'] > 0.9 else 'PRE', axis=1)
+    pub['Tipo'] = pub.apply(lambda row: 'POS' if row['Taxa Cliente'] > 0.9 else 'PRE', axis=1)
     pub['Vencimento'] = pd.to_datetime(pub['Vencimento'])
     pub['Emissão'] = pd.to_datetime(pub['Emissão'])
     pub['Prazo'] = pub.apply(lambda row: np.around(
@@ -68,13 +68,13 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
         ((math.pow(1+row['DI_ref_POS'], 1/252))-1)*row['Taxa Cliente']+1, 252)-1, axis=1)
 
     pub['Batimento_taxa'] = pub.apply(lambda row:
-                                      ("TRUE" if row['Fixa'] >= row['Taxa Distribuidor'] else "FALSE") if row['Indexador'] == "PRE" else
-                                      (("TRUE" if row['CDI +'] >= row['Taxa Distribuidor'] else "FALSE") if row['Indexador'] == "CDI +" else
+                                      ("TRUE" if row['Fixa'] >= row['Taxa Distribuidor'] else "FALSE") if row['Indexador'] == 'PRE' else
+                                      (("TRUE" if row['CDI +'] >= row['Taxa Distribuidor'] else "FALSE") if row['Indexador'] == 'CDI +' else
                                       ("TRUE" if row['Referência'] >= row['Taxa Distribuidor'] else "FALSE")), axis=1)
 
     workdays = workdays.strftime('%Y-%m-%d').to_list()
     pub['nwdays'] = pub.apply(lambda row: nwdays(row['Emissão'], row['Vencimento'], workdays), axis=1)
-    pub['PU_PRE'] = pub.apply(lambda row: 0 if (row['Indexador'] != "PRE" or row['Indexador'] != "CDI +") else np.around((math.pow(
+    pub['PU_PRE'] = pub.apply(lambda row: 0 if (row['Indexador'] != 'PRE' or row['Indexador'] != 'CDI +') else np.around((math.pow(
         1+row['Taxa Cliente'], row['nwdays']/252)/math.pow(1+row['Taxa Distribuidor'], row['nwdays']/252))*1000, 8), axis=1)
     pub['PU_POS'] = pub.apply(lambda row: 0 if row['Indexador'] != "% CDI" else np.around(
         (math.pow(1+row['Taxa_Cli_pos'], row['nwdays']/252)/math.pow(1+row['Taxa_Dis_pos'], row['nwdays']/252))*1000, 8), axis=1)
@@ -83,7 +83,7 @@ def publicacao_fig(fig: pd.DataFrame, tes: pd.DataFrame, workdays):
                       'Produto', 'Tipo', 'Prazo', 'Batimento_taxa', 'PU_PRE', 'DI_ref_POS', 'Taxa_Dis_pos', 'Taxa_Cli_pos', 'PU_POS']]
 
     pub['Diferença'] = pub.apply(lambda row: 0 if row['PU'] == 0 else np.around(
-        (row['PU_' + row['Tipo']]-row['PU'])/row['PU'], 10), axis=1)
+        (row['PU_' + ('POS' if row['Indexador'] == '% CDI' else 'PRE')]-row['PU'])/row['PU'], 10), axis=1)
 
     # Power Query
     pub['PU_tesouraria'] = pub.apply(lambda row: row['PU_PRE'] if row['PU_PRE'] != 0 else row['PU_POS'], axis=1)
@@ -133,8 +133,6 @@ with BBM_Flow('unit price check', schedule=schedule) as flow:
     pub_740 = read_publicador(740, data_base=yesterday)
     # pub_399 = pd.read_excel(folderpath + 'teste_1.xlsx')
     # pub_740 = pd.read_excel(folderpath + 'teste_2.xlsx')
-
-    print(pub_399)
 
     with prefect.case(updated(pub_399, pub_740), True):
         saved_399 = save_temp(pub_399, 'pub_399')

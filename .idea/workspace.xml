@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="68406561-d5ae-465a-82c9-24ad414bfa91" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pub_399.csv" beforeDir="false" afterPath="$PROJECT_DIR$/pub_399.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pub_740.csv" beforeDir="false" afterPath="$PROJECT_DIR$/pub_740.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raw.csv" beforeDir="false" afterPath="$PROJECT_DIR$/raw.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/logfile" beforeDir="false" afterPath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/logfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" beforeDir="false" afterPath="$PROJECT_DIR$/tesouraria_corporativa/Batimento_PU/module.py" afterDir="false" />
     </list>
